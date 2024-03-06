@@ -6,7 +6,7 @@
 /*   By: tpotilli <tpotilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:48:31 by tpotilli          #+#    #+#             */
-/*   Updated: 2024/03/05 18:51:39 by tpotilli         ###   ########.fr       */
+/*   Updated: 2024/03/06 13:16:02 by tpotilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdio.h>
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 42

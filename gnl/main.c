@@ -6,25 +6,35 @@
 /*   By: tpotilli <tpotilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:51:43 by tpotilli          #+#    #+#             */
-/*   Updated: 2024/03/05 18:53:44 by tpotilli         ###   ########.fr       */
+/*   Updated: 2024/03/06 15:31:42 by tpotilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_exemple2.h"
+#include "get_next_line_exemple.h"
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
-char    *get_next_line(int fd);
-
-int main()
+int    main(void)
 {
-	int fd = 0;
-	int i = 0;
+	int        fd1;
+	int        run;
+	char    	*str;
 
-	while (i < 3)
+	fd1 = open("test.txt", O_RDWR);
+	run = 0;
+	while (run < 3)
 	{
-		fd = open("/home/theo/Desktop/gnl_du_c/test.txt", O_WRONLY);
-		printf("%s", get_next_line(fd));
-		i++;
+		str = get_next_line(fd1);
+		if (str != NULL)
+		{
+			printf("main FD1 --> %s\n", str);
+			free (str);
+			str = NULL;
+		}
+		run++;
 	}
-	close (fd);
+	close(fd1);
 	return (0);
 }
