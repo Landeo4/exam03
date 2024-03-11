@@ -6,11 +6,12 @@
 /*   By: tpotilli <tpotilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 12:14:51 by tpotilli          #+#    #+#             */
-/*   Updated: 2024/03/06 15:29:07 by tpotilli         ###   ########.fr       */
+/*   Updated: 2024/03/07 14:05:14 by tpotilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gnl_save.h"
+//gcc -Wall -Werror -Wextra save.c
 
 char *ft_alloc()
 {
@@ -22,7 +23,7 @@ char *ft_alloc()
 }
 
 char	*ft_first_backup(char *backup, int fd)
-{
+{ // donc dans cette fonction backup a toute la string, on doit donc se limite via un buffer a BUFFER_SIZE de cette string
 	int		help;
 	char	*buffer;
 
@@ -79,7 +80,7 @@ char	*ft_next_line(char *backup)
 	int		i;
 	char	*new;
 
-	i = (ft_strlen(backup) - ft_find_newline(backup));
+	i = (ft_strlen(backup) - ft_find_newline(backup)); // i qui prend tout backup - la prochaine ligne
 	if (!backup || ft_find_newline(backup) == -1)
 	{
 		free(backup);
@@ -217,6 +218,7 @@ char	*get_next_line(int fd)
 	backup = ft_first_backup(backup, fd); // on recup tout notre buffer
 	if (!backup)
 		return (NULL);
+	printf("dsasdasas %s  FINISIIIIIII", backup);
 	str = ft_get_str(backup); // recup tout la ligne jusqu'au \n
 	backup = ft_next_line(backup); // on prepare la prochaine ligne
 	return (str);

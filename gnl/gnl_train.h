@@ -1,38 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   gnl_train.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpotilli <tpotilli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/05 18:51:43 by tpotilli          #+#    #+#             */
-/*   Updated: 2024/03/07 13:56:15 by tpotilli         ###   ########.fr       */
+/*   Created: 2024/03/07 14:06:20 by tpotilli          #+#    #+#             */
+/*   Updated: 2024/03/07 14:17:22 by tpotilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_exemple.h"
-#include <stdio.h>
-#include <fcntl.h>
+#ifndef GNL_TRAIN_H
+#define GNL_TRAIN_H
 
-int    main(void)
-{
-	int        fd1;
-	int        run;
-	char    	*str;
+#include "stdlib.h"
+#include "unistd.h"
 
-	fd1 = open("test.txt", O_RDWR);
-	run = 0;
-	while (run < 3)
-	{
-		str = get_next_line(fd1);
-		if (str != NULL)
-		{
-			printf("main FD1 --> %s\n", str);
-			free (str);
-			str = NULL;
-		}
-		run++;
-	}
-	close(fd1);
-	return (0);
-}
+#ifndef BUFFER_SIZE
+#define BUFFER_SIZE 42
+#endif
+
+char *get_next_line(int fd);
+first_backup(char *backup, int fd);
+
+#endif

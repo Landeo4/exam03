@@ -14,14 +14,14 @@ int	find_new_line(char *str)
 {
 	int i = 0;
 	if (!str)
-		return (0);
+		return (-1);
 	while (str[i])
 	{
 		if (str[i] == '\n')
-			return (1);
+			return (i);
 		i++;
 	}
-	return (0);
+	return (-1);
 }
 
 char *join_free(char *backup, char *buf)
@@ -50,6 +50,7 @@ char *join_free(char *backup, char *buf)
 		j++;
 	}
 	dest[i] = '\0';
+	free(backup);
 	return (dest);
 }
 
@@ -59,17 +60,11 @@ char *get_backup(char *backup, int fd)
 	int		check;
 
 	check = 1;
-	// if (!backup)
-	// {
-
-	// }
-	while (check != 0 && find_new_line(backup) == 0)
+	while (check != 0 && find_new_line(backup) == -1)
 	{
 		buf = malloc(sizeof(char) * BUFFER_SIZE + 1);
-		if (!buf)
-			return (NULL);
 		check = read(fd, buf, BUFFER_SIZE);
-		if (!check)
+		if (check == -1)
 		{
 			free(buf);
 			return (NULL);
@@ -110,7 +105,6 @@ char *get_line(char *backup)
 		i++;
 	}
 	nl[i] = '\0';
-	printf("dans get line %s\n", backup);
 	return (nl);
 }
 
@@ -121,29 +115,33 @@ char *next_line(char *backup)
 	int i = ft_strlen(backup);
 	int j = find_new_line(backup);
 
-	if (!backup || j == 0)
+	if (!backup || j == -1)
 	{
-		printf("pas de backup ou de new line\n");
 		free(backup);
 		return (NULL);
 	}
-	nv = malloc(sizeof(char) * (i - j));
-	if (!nv)
+	else
 	{
-		printf("problem alloc\n");
-		return (NULL);
-	}
-	i = 0;
-	while (backup[i] != '\n')
+		if ((ft_strlen(backup) - 1) == find_new_line(backup))
+		{
+			free(backup);
+			return (NULL);
+		}
+		nv = malloc(sizeof(char) * (i - j + 1));
+		if (!nv)
+			return (NULL);
+		i = 0;
+		while (backup[i] != '\n')
+			i++;
 		i++;
-	i++;
-	while (backup[i])
-	{
-		nv[c] = backup[i];
-		i++;
-		c++;
+		while (backup[i])
+		{
+			nv[c] = backup[i];
+			i++;
+			c++;
+		}
+		nv[c] = '\0';
 	}
-	nv[c] = '\0';
 	free(backup);
 	return (nv);
 }
@@ -157,10 +155,7 @@ char *get_next_line(int fd)
 		return (NULL);
 	backup = get_backup(backup, fd);
 	if (!backup)
-	{
-		printf("mon backup est null\n");
 		return (NULL);
-	}
 	line = get_line(backup);
 	backup = next_line(backup);
 	return (line);
